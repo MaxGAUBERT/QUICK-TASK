@@ -6,12 +6,10 @@ export default function useTasks() {
   ])
 
   const [showEditWindow, setShowEditWindow] = useState(false)
-
   const [selectedTask, setSelectedTask] = useState(tasks[0])
   const [displayedTasks, setDisplayedTasks] = useState(tasks)
   const [sortOrder, setSortOrder] = useState(null)
 
-    // --- Gestion des tâches ---
   const AddTask = () => {
     const nextId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 1
     const newTask = {
@@ -25,14 +23,10 @@ export default function useTasks() {
     setSelectedTask(newTask)
   }
 
-  // Suppression
-
   const DeleteAllTask = () => {
     setTasks([])
     setSelectedTask(null)
   }
-
-  // Sauvegarde
 
   const SaveTaskEdit = () => {
     setTasks((prev) =>
@@ -49,8 +43,6 @@ export default function useTasks() {
     )
   }
 
-
-  // --- Recherche ---
   const handleSearch = (query) => {
     const q = query?.toLowerCase() || ""
     const filtered = tasks.filter(
@@ -61,7 +53,6 @@ export default function useTasks() {
     applySort(filtered, sortOrder)
   }
 
-  // --- Tri ---
   const applySort = (list, order) => {
     if (!order) {
       setDisplayedTasks(list)
@@ -80,24 +71,22 @@ export default function useTasks() {
     applySort(displayedTasks, order)
   }
 
-  // --- Sync global ---
   useEffect(() => {
     applySort(tasks, sortOrder)
   }, [tasks])
 
   return {
-    tasks,
+    tasks,        
     setTasks,
     displayedTasks,
     selectedTask,
     setSelectedTask,
     handleSearch,
     handleSort,
-    DeleteAllTask, 
-    AddTask, 
-    showEditWindow, 
+    DeleteAllTask,
+    AddTask,
+    showEditWindow,
     setShowEditWindow,
-    SaveTaskEdit
-
+    SaveTaskEdit,
   }
 }

@@ -1,23 +1,20 @@
-import { useGlobalColorContext } from "../Contexts/GlobalColorContext"
-import useData from "../Hooks/useData"
-
-
-
-
-export default function SaveSystem({ showSaveModal, setShowSaveModal }) {
-  const { savedTasks, setSavedTasks, SaveTasksToFile } = useData()
+export default function SaveSystem({
+  showSaveModal,
+  setShowSaveModal,
+  savedTasks,
+  setSavedTasks,
+  SaveTasksToFile
+}) {
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[2000] p-4">
 
       <div className="bg-white text-black w-full max-w-md rounded-xl shadow-2xl border-4 border-black border-double p-6 flex flex-col gap-5 animate-scaleIn">
 
-        {/* Title */}
         <h2 className="text-center text-xl font-semibold tracking-wide">
           Save tasks
         </h2>
 
-        {/* Input */}
         <div className="flex flex-col gap-2">
           <label className="text-sm font-medium">File name</label>
           <input
@@ -29,7 +26,6 @@ export default function SaveSystem({ showSaveModal, setShowSaveModal }) {
           />
         </div>
 
-        {/* Buttons */}
         <div className="flex justify-end gap-3 pt-2">
           <button
             onClick={() => setShowSaveModal(!showSaveModal)}

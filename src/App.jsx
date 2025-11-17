@@ -9,9 +9,11 @@ import SaveSystem from "./Components/SaveSystem"
 import useData from "./Hooks/useData"
 
 export default function App() {
+
   const {
-  displayedTasks,
+  tasks,
   setTasks,
+  displayedTasks,
   selectedTask,
   setSelectedTask,
   showEditWindow,
@@ -20,10 +22,19 @@ export default function App() {
   DeleteAllTask,
   SaveTaskEdit,
   handleSearch,
-  handleSort,
+  handleSort
 } = useTasks()
 
-const {showSaveModal, setShowSaveModal, UploadTasks} = useData(displayedTasks)
+const {
+  showSaveModal,
+  setShowSaveModal,
+  UploadTasks,
+  savedTasks,
+  setSavedTasks,
+  SaveTasksToFile
+} = useData(tasks, setTasks)
+
+
 
 
 return (
@@ -94,8 +105,15 @@ return (
 
       <div>
         {showSaveModal && (
-          <SaveSystem showSaveModal={showSaveModal} setShowSaveModal={setShowSaveModal}/>
-        )}
+          <SaveSystem
+            showSaveModal={showSaveModal}
+            setShowSaveModal={setShowSaveModal}
+            savedTasks={savedTasks}
+            setSavedTasks={setSavedTasks}
+            SaveTasksToFile={SaveTasksToFile}
+          />
+      )}
+
       </div>
     </div>
   </GlobalColorContextProvider>

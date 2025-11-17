@@ -12,7 +12,7 @@ export default function TaskManager({addTask, DeleteAllTask, SaveTasks, UploadTa
             <button title="delete all tasks" onClick={() => DeleteAllTask()}><FaMinus/></button>
             <button title="save tasks" onClick={() => SaveTasks()}><FiSave /></button>
             <span></span>
-            <button className="ml-5" title="upload tasks" onClick={() => {document.getElementById("uploadTasksInput").click(); UploadTasks()}}><MdCloudUpload /></button>
+            <button className="ml-5" title="upload tasks" onClick={() => document.getElementById("uploadTasksInput").click()}><MdCloudUpload /></button>
 
             <input
                 type="file"
