@@ -34,7 +34,6 @@ export default function SearchBar({ onSearch, onSort, tasks }) {
 
       <input
         type="text"
-        disabled={tasks.length === 0}
         value={searchTerm}
         onChange={handleChange}
         placeholder="Search..."

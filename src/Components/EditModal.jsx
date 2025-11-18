@@ -39,6 +39,12 @@ export default function EditModal({showEditWindow, setShowEditWindow, selectedTa
                   }
                   className="border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300 w-64"
                 />
+
+                <select value={selectedTask.priority} onChange={(e) => setSelectedTask({ ...selectedTask, priority: e.target.value })} className="mt-5 border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300 w-32">
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
               </div>
 
               {/* Zone de description au centre */}

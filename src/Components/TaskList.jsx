@@ -1,6 +1,7 @@
 import { useGlobalColorContext } from "../Contexts/GlobalColorContext"
 import { FiClock } from "react-icons/fi"
 import { FaTrashAlt, FaEdit } from "react-icons/fa"
+import { priorityColors } from "../Hooks/useTasks"
 
 export default function TaskList({
   tasks,
@@ -56,6 +57,15 @@ export default function TaskList({
                 </h3>
                 <p className="text-sm text-gray-400">{task.describe}</p>
               </div>
+
+              <span
+                className={`px-2 py-1 text-xs rounded-full ${
+                  priorityColors[task.priority] || priorityColors.medium
+                }`}
+              >
+                {task.priority || "medium"}
+              </span>
+
             </div>
 
             {/* Right side: time + actions */}

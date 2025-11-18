@@ -1,8 +1,21 @@
 import { useState, useEffect } from "react"
 
+
+export const priorityColors = {
+  low: "bg-green-500 text-white",
+  medium: "bg-yellow-500 text-white",
+  high: "bg-red-500 text-white",
+}
+
 export default function useTasks() {
   const [tasks, setTasks] = useState([
-    { id: 1, text: "Task 1", describe: "Description 1", done: false, callTime: null },
+    { id: 1, 
+      text: "Task 1", 
+      describe: "Description 1", 
+      done: false, 
+      callTime: null,
+      priority: "medium",
+     },
   ])
 
   const [showEditWindow, setShowEditWindow] = useState(false)
@@ -37,6 +50,7 @@ export default function useTasks() {
               text: selectedTask.text,
               describe: selectedTask.describe,
               callTime: selectedTask.callTime,
+              priority: selectedTask.priority,
             }
           : t
       )
@@ -44,14 +58,24 @@ export default function useTasks() {
   }
 
   const handleSearch = (query) => {
-    const q = query?.toLowerCase() || ""
-    const filtered = tasks.filter(
-      (t) =>
-        t.text.toLowerCase().includes(q) ||
-        (t.describe && t.describe.toLowerCase().includes(q))
-    )
-    applySort(filtered, sortOrder)
+  const q = (query || "").toLowerCase()
+
+  // Si input vide → restaurer toutes les tâches
+  if (q === "") {
+    applySort(tasks, sortOrder)
+    return
   }
+
+  const filtered = tasks.filter(
+    (t) =>
+      t.text.toLowerCase().includes(q) ||
+      (t.describe && t.describe.toLowerCase().includes(q))
+  )
+
+  applySort(filtered, sortOrder)
+}
+
+
 
   const applySort = (list, order) => {
     if (!order) {
@@ -63,6 +87,7 @@ export default function useTasks() {
       const dateB = b.callTime ? new Date(b.callTime).getTime() : 0
       return order === "asc" ? dateA - dateB : dateB - dateA
     })
+
     setDisplayedTasks(sorted)
   }
 
