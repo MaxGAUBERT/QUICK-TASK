@@ -35,6 +35,7 @@ export default function TaskList({
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <input
                 type="checkbox"
+                title="mark task as done"
                 checked={task.done}
                 onChange={() =>
                   setTasks(

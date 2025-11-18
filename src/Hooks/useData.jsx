@@ -27,7 +27,6 @@ export default function useData(tasks, setTasks){
         reader.onload = () => {
             try {
                 const text = reader.result
-                console.log("Raw file content:", text) // debug
 
                 const json = JSON.parse(text)
 
@@ -45,6 +44,7 @@ export default function useData(tasks, setTasks){
         }
 
         reader.readAsText(file)
+        event.target.value = ""
     }
 
     return {
