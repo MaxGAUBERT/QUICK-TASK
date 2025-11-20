@@ -10,7 +10,8 @@ import useData from "./Hooks/useData"
 
 export default function App() {
 
-  const {
+  // App.jsx
+const {
   tasks,
   setTasks,
   displayedTasks,
@@ -22,17 +23,19 @@ export default function App() {
   DeleteAllTask,
   SaveTaskEdit,
   handleSearch,
-  handleSort
+  sortState,
+  dispatchSort,
 } = useTasks()
 
-const {
-  showSaveModal,
-  setShowSaveModal,
-  UploadTasks,
-  savedTasks,
-  setSavedTasks,
-  SaveTasksToFile
-} = useData(tasks, setTasks)
+
+  const {
+    showSaveModal,
+    setShowSaveModal,
+    UploadTasks,
+    savedTasks,
+    setSavedTasks,
+    SaveTasksToFile
+  } = useData(tasks, setTasks)
 
 
 
@@ -66,14 +69,14 @@ return (
         <div className="mt-2"> 
           <SearchBar
             onSearch={handleSearch}
-            onSort={handleSort}
-            tasks={displayedTasks}
+            sortState={sortState}
+            dispatchSort={dispatchSort}
           />
         </div>
 
         <div className="flex-1 mt-4 overflow-y-auto">
           <TaskList
-            tasks={displayedTasks}
+            tasks={displayedTasks.length > 0 ? displayedTasks : tasks}
             setTasks={setTasks}
             showEditWindow={showEditWindow}
             setShowEditWindow={setShowEditWindow}
