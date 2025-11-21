@@ -1,4 +1,4 @@
-import { useContext, createContext, useRef, useState } from "react";
+import { useContext, createContext, useState } from "react";
 
 
 const GlobalColorContext = createContext(null);

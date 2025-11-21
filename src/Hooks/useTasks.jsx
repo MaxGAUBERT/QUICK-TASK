@@ -1,12 +1,12 @@
-import { useState, useReducer, useEffect } from "react"
+import { useState, useReducer, useEffect, use } from "react"
+import {useHistoryContext} from "../Contexts/HistoryProvider"
+
 
 export const priorityColors = {
   low: "bg-green-500 text-white",
   medium: "bg-yellow-500 text-white",
   high: "bg-red-500 text-white",
 }
-
-
 
 
 export default function useTasks() {
@@ -28,6 +28,8 @@ export default function useTasks() {
     const [showEditWindow, setShowEditWindow] = useState(false)
     const [selectedTask, setSelectedTask] = useState(tasks[0])
     const [displayedTasks, setDisplayedTasks] = useState(tasks)
+    const { addAction} = useHistoryContext()
+
 
     function sortReducer(state, action) {
       switch (action.type) {
@@ -61,15 +63,30 @@ export default function useTasks() {
         callTime: null,
         priority: "medium",
       }
-      setTasks((prev) => [...prev, newTask])
-      setSelectedTask(newTask)
+
+      addAction({
+        do: () => setTasks((prev) => [...prev, newTask]),
+        undo: () => setTasks((prev) => prev.filter((t) => t.id !== newTask.id)),
+      })
+
     }
 
     const DeleteAllTask = () => {
-      setTasks([])
-      setSelectedTask(null)
+      const previousTasks = [...tasks] 
+
+      addAction({
+        do: () => {
+          setTasks([])
+          setSelectedTask(null)
+        },
+        undo: () => {
+          setTasks(previousTasks)
+        },
+      })
     }
 
+    
+    /*
     const SaveTaskEdit = () => {
       setTasks((prev) =>
         prev.map((t) =>
@@ -85,6 +102,22 @@ export default function useTasks() {
         )
       )
     }
+    */
+
+    const SaveTaskEdit = () => {
+      const before = tasks.find(t => t.id === selectedTask.id)
+      const after = { ...selectedTask }
+
+      addAction({
+        do: () => setTasks(prev =>
+          prev.map(t => t.id === after.id ? after : t)
+        ),
+        undo: () => setTasks(prev =>
+          prev.map(t => t.id === before.id ? before : t)
+        )
+      })
+    }
+
 
   const handleSearch = (query) => {
     const q = (query || "").toLowerCase()
@@ -129,6 +162,16 @@ export default function useTasks() {
       return sortState.order === "asc"
         ? textA.localeCompare(textB)
         : textB.localeCompare(textA)
+    })
+  }
+
+  if (sortState.key === "description"){
+    sorted.sort((a, b) => {
+      const descA = a.describe ? a.describe.toLowerCase() : ""
+      const descB = b.describe ? b.describe.toLowerCase() : ""
+      return sortState.order === "asc" 
+        ? descA.localeCompare(descB) && descA.length - descB.length
+        : descB.localeCompare(descA) && descB.length - descA.length
     })
   }
 

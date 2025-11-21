@@ -2,6 +2,7 @@ import { useGlobalColorContext } from "../Contexts/GlobalColorContext"
 import { FiClock } from "react-icons/fi"
 import { FaTrashAlt, FaEdit } from "react-icons/fa"
 import { priorityColors } from "../Hooks/useTasks"
+import { useHistoryContext } from "../Contexts/HistoryProvider"
 
 export default function TaskList({
   tasks,
@@ -11,6 +12,7 @@ export default function TaskList({
   setSelectedTask,
 }) {
   const { colorsComponent } = useGlobalColorContext()
+  const {addAction} = useHistoryContext();
 
   return (
     <div
@@ -94,9 +96,18 @@ export default function TaskList({
               <button
               style={{color: colorsComponent.Text}}
                 className="flex items-center gap-1 bg-red-500 hover:bg-red-600 px-2 py-1 rounded-md text-sm"
-                onClick={() =>
-                  setTasks(tasks.filter((t) => t.id !== task.id))
-                }
+                onClick={() => {
+                  const deletedTask = { ...task } // snapshot sécurisé
+
+                  addAction({
+                    do: () =>
+                      setTasks(prev => prev.filter(t => t.id !== deletedTask.id)),
+                    undo: () =>
+                      setTasks(prev => [...prev, deletedTask]),
+                  })
+
+              }}
+
               >
                 <FaTrashAlt />
                 Delete

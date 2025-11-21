@@ -40,11 +40,12 @@ export default function SearchBar({ onSearch, sortState, dispatchSort }) {
         className="flex-1 outline-none placeholder-gray-400 bg-transparent"
       />
       
-      <div className="border-l flex flex-row ml-15" style={{ borderColor: colorsComponent.Border, backgroundColor: colorsComponent.Background }}>
-      <select onChange={(e) => dispatchSort({type: "SET_SORT_KEY", payload: e.target.value})} className="bg-transparent outline-none" style={{ color: colorsComponent.Text }}>
+      <div className="border-l flex flex-row" style={{ borderColor: colorsComponent.Border, backgroundColor: colorsComponent.Background, color: colorsComponent.Text }}>
+      <select onChange={(e) => dispatchSort({type: "SET_SORT_KEY", payload: e.target.value})} className="outline-2" value={sortState.key}>
         <option value="date">Date</option>
         <option value="priority">Priority</option>
         <option value="text">Title</option>
+        <option value="description">Description</option>  
       </select>
 
       <button className="ml-8" type="button" title="Toggle Sort Order (asc/desc)" onClick={() =>

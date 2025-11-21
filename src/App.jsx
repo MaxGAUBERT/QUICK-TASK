@@ -7,10 +7,10 @@ import EditModal from "./Components/EditModal"
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import SaveSystem from "./Components/SaveSystem"
 import useData from "./Hooks/useData"
+import { HistoryProvider } from "./Contexts/HistoryProvider"
 
 export default function App() {
 
-  // App.jsx
 const {
   tasks,
   setTasks,
@@ -120,6 +120,7 @@ return (
       </div>
     </div>
   </GlobalColorContextProvider>
+
 );
 
 }

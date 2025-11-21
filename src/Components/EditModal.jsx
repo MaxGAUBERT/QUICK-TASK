@@ -1,4 +1,4 @@
-
+import { VscClearAll } from "react-icons/vsc";
 
 
 export default function EditModal({showEditWindow, setShowEditWindow, selectedTask, setSelectedTask, SaveTaskEdit}){
@@ -10,7 +10,7 @@ export default function EditModal({showEditWindow, setShowEditWindow, selectedTa
       <div className="fixed inset-0 bg-[rgba(225,199,199,0.5)] flex items-center justify-center z-[1000] overflow-auto">
         <div className="bg-white p-5 border-4 border-black rounded-lg w-[800px] h-[400px] text-black shadow-lg border-double flex flex-col">
           <h3 className="text-xl font-semibold mb-4 text-center">
-            Task edition - {selectedTask.text}
+           Edit task - {selectedTask.text}
           </h3>
 
           <div className="flex flex-col flex-1 text-white">
@@ -61,6 +61,9 @@ export default function EditModal({showEditWindow, setShowEditWindow, selectedTa
                   className="w-[400px] h-[200px] resize-none border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300"
                 />
               </div>
+              <button className="mt-8" onClick={() => setSelectedTask({...selectedTask, describe: ""})}>
+                  <VscClearAll size={15} title="Clear Description"/>
+              </button>
             </div>
           </div>
 
