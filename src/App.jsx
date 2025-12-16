@@ -7,7 +7,6 @@ import EditModal from "./Components/EditModal"
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import SaveSystem from "./Components/SaveSystem"
 import useData from "./Hooks/useData"
-import { HistoryProvider } from "./Contexts/HistoryProvider"
 
 export default function App() {
 
@@ -42,10 +41,21 @@ const {
 
 return (
   <GlobalColorContextProvider>
-    <div className="relative font-['Roboto_Mono'] italic h-screen w-screen bg-gray-800 text-white overflow-hidden">
+    <div className="
+        h-screen
+        w-screen
+        flex
+        items-center
+        justify-center
+        font-['Roboto_Mono']
+        italic
+        bg-gray-800
+        text-white
+      ">
+
 
       {/* HEADER */}
-      <header className="absolute top-0 left-0 p-4">
+      <header className="fixed top-0 left-0 p-4">
         <h1 className="text-[30px] flex flex-row font-bold">
           QUICK TASK
           <HiOutlineBellAlert className="ml-3 bg-green-400" color="red" size={30}/>
@@ -55,23 +65,38 @@ return (
 
       {/* MAIN ZONE (full responsive container) */}
       <main className="
-        absolute right-0 top-0 
-        flex flex-col 
+        w-full
+        max-w-4xl
+        h-full
         bg-gray-700
         border-4 border-gray-500 border-double
         rounded
         p-4
-        h-full
-        w-full
-        max-w-[1100px]
-        overflow-y-auto
+        flex
+        flex-col
+        overflow-hidden
       ">
-        <div className="mt-2"> 
-          <SearchBar
-            onSearch={handleSearch}
-            sortState={sortState}
-            dispatchSort={dispatchSort}
-          />
+
+        <div>
+          <div className="mt-2"> 
+          
+
+           {/* BOTTOM BUTTONS */}
+            <div className="p-2 w-full flex items-center gap-6">
+              <SearchBar
+                onSearch={handleSearch}
+                sortState={sortState}
+                dispatchSort={dispatchSort}
+              />
+              <TaskManager
+                addTask={AddTask}
+                SaveTasks={() => setShowSaveModal(!showSaveModal)}
+                DeleteAllTask={DeleteAllTask}
+                UploadTasks={UploadTasks}
+              />
+            </div>
+        </div>
+        
         </div>
 
         <div className="flex-1 mt-4 overflow-y-auto">
@@ -95,16 +120,6 @@ return (
           SaveTaskEdit={SaveTaskEdit}
         />
       )}
-
-      {/* BOTTOM BUTTONS */}
-      <div className="fixed bottom-0 left-0 p-2">
-        <TaskManager
-          addTask={AddTask}
-          SaveTasks={() => setShowSaveModal(!showSaveModal)}
-          DeleteAllTask={DeleteAllTask}
-          UploadTasks={UploadTasks}
-        />
-      </div>
 
       <div>
         {showSaveModal && (

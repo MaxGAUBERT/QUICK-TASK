@@ -48,7 +48,7 @@ export default function SearchBar({ onSearch, sortState, dispatchSort }) {
         <option value="description">Description</option>  
       </select>
 
-      <button className="ml-8" type="button" title="Toggle Sort Order (asc/desc)" onClick={() =>
+      <button className="ml-2" type="button" title="Toggle Sort Order (asc/desc)" onClick={() =>
         dispatchSort({
           type: "SET_SORT_ORDER",
           payload: sortState.order === "asc" ? "desc" : "asc",

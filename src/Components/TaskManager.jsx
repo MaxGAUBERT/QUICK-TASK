@@ -12,7 +12,7 @@ export default function TaskManager({addTask, DeleteAllTask, SaveTasks, UploadTa
     const { undo, redo, canUndo, canRedo } = useHistoryContext();
 
     return (
-        <div style={{backgroundColor: colorsComponent.BackgroundIO}} className="border-solid border-2 rounded-lg p-2 flex gap-2 shadow-lg">
+        <div style={{backgroundColor: colorsComponent.BackgroundIO}} className="border-solid ml-12 border-2 rounded-lg p-2 flex gap-2 shadow-lg">
             <button title='add new task' onClick={() => addTask()}><FaPlus/></button>
             <button title="delete all tasks" onClick={() => DeleteAllTask()}><FaMinus/></button>
             <button className="ml-5" title="save tasks" onClick={() => SaveTasks()}><FiSave /></button>
