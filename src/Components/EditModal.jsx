@@ -1,94 +1,158 @@
-import { VscClearAll } from "react-icons/vsc";
+import { VscClearAll } from "react-icons/vsc"
 
+export default function EditModal({
+  showEditWindow,
+  setShowEditWindow,
+  selectedTask,
+  setSelectedTask,
+  SaveTaskEdit,
+}) {
+  if (!showEditWindow) return null
 
-export default function EditModal({showEditWindow, setShowEditWindow, selectedTask, setSelectedTask, SaveTaskEdit}){
-
+  const inputBase = `
+    w-full px-3 py-1.5 rounded-md
+    bg-[var(--c-bg)]
+    border border-[var(--c-border)]
+    text-[var(--c-text)]
+    focus:outline-none
+    focus:ring-2 focus:ring-[var(--c-focus)]
+  `
 
   return (
-  <div>
-    {showEditWindow && (
-      <div className="fixed inset-0 bg-[rgba(225,199,199,0.5)] flex items-center justify-center z-[1000] overflow-auto">
-        <div className="bg-white p-5 border-4 border-black rounded-lg w-[800px] h-[400px] text-black shadow-lg border-double flex flex-col">
-          <h3 className="text-xl font-semibold mb-4 text-center">
-           Edit task - {selectedTask.text}
-          </h3>
+    <div className="
+      fixed inset-0 z-[1000]
+      flex items-center justify-center
+      bg-black/60 backdrop-blur-sm
+    ">
+      <div className="
+        w-[820px] max-w-[95vw] h-[420px]
+        rounded-xl p-5
+        bg-[var(--c-panel)]
+        border border-[var(--c-border)]
+        shadow-2xl
+        flex flex-col
+      ">
+        {/* Header */}
+        <h3 className="text-xl font-semibold text-center text-[var(--c-text)] mb-4">
+          Edit task — <span className="text-[var(--c-primary)]">{selectedTask.text}</span>
+        </h3>
 
-          <div className="flex flex-col flex-1 text-white">
-            {/* Partie gauche avec le nom et la date */}
-            <div className="flex flex-row justify-between items-start">
-              <div className="flex flex-col items-start">
-                <label className="font-semibold mb-1">Task name</label>
-                <input
-                  type="text"
-                  value={selectedTask.text}
-                  onChange={(e) =>
-                    setSelectedTask({ ...selectedTask, text: e.target.value })
-                  }
-                  className="border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300 w-64"
-                />
+        {/* Body */}
+        <div className="flex flex-1 gap-6">
+          {/* Left column */}
+          <div className="flex flex-col gap-3 w-64">
+            <div>
+              <label className="text-sm font-medium text-[var(--c-text-muted)]">
+                Task name
+              </label>
+              <input
+                type="text"
+                value={selectedTask.text}
+                onChange={e =>
+                  setSelectedTask({ ...selectedTask, text: e.target.value })
+                }
+                className={inputBase}
+              />
+            </div>
 
-                <label className="font-semibold mt-0">Reminder time</label>
-                <input
-                  type="datetime-local"
-                  value={selectedTask.callTime || ""}
-                  onChange={(e) =>
-                    setSelectedTask({
-                      ...selectedTask,
-                      callTime: e.target.value,
-                    })
-                  }
-                  className="border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300 w-64"
-                />
+            <div>
+              <label className="text-sm font-medium text-[var(--c-text-muted)]">
+                Reminder time
+              </label>
+              <input
+                type="datetime-local"
+                value={selectedTask.callTime || ""}
+                onChange={e =>
+                  setSelectedTask({ ...selectedTask, callTime: e.target.value })
+                }
+                className={inputBase}
+              />
+            </div>
 
-                <select value={selectedTask.priority} onChange={(e) => setSelectedTask({ ...selectedTask, priority: e.target.value })} className="mt-5 border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300 w-32">
-                  <option value="low">Low</option>
-                  <option value="medium">Medium</option>
-                  <option value="high">High</option>
-                </select>
-              </div>
-
-              {/* Zone de description au centre */}
-              <div className="flex flex-col items-center flex-1">
-                <label className="font-semibold mb-1">Describe this task</label>
-                <textarea
-                  value={selectedTask.describe}
-                  onChange={(e) =>
-                    setSelectedTask({
-                      ...selectedTask,
-                      describe: e.target.value,
-                    })
-                  }
-                  className="w-[400px] h-[200px] resize-none border border-gray-400 rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-300"
-                />
-              </div>
-              <button className="mt-8" onClick={() => setSelectedTask({...selectedTask, describe: ""})}>
-                  <VscClearAll size={15} title="Clear Description"/>
-              </button>
+            <div>
+              <label className="text-sm font-medium text-[var(--c-text-muted)]">
+                Priority
+              </label>
+              <select
+                value={selectedTask.priority}
+                onChange={e =>
+                  setSelectedTask({ ...selectedTask, priority: e.target.value })
+                }
+                className={inputBase}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
             </div>
           </div>
 
-          {/* Boutons en bas */}
-          <div className="flex justify-center mt-4">
+          {/* Description */}
+          <div className="flex flex-col flex-1 relative">
+            <label className="text-sm font-medium text-[var(--c-text-muted)] mb-5">
+              Description
+            </label>
+
+            <textarea
+              value={selectedTask.describe}
+              onChange={e =>
+                setSelectedTask({ ...selectedTask, describe: e.target.value })
+              }
+              className={`
+                ${inputBase}
+                resize-none h-full
+              `}
+            />
+
             <button
-              onClick={() => {
-                setShowEditWindow(!showEditWindow)
-                SaveTaskEdit()
-              }}
-              className="bg-green-600 text-white px-4 py-1 rounded hover:bg-green-700 transition-colors"
+              title="Clear description"
+              onClick={() =>
+                setSelectedTask({ ...selectedTask, describe: "" })
+              }
+              className="
+                absolute top-0 right-0
+                p-1 text-[var(--c-text-muted)]
+                hover:text-[var(--c-danger)]
+                transition
+              "
             >
-              Save
-            </button>
-            <button
-              onClick={() => setShowEditWindow(!showEditWindow)}
-              className="ml-2 bg-gray-300 px-4 py-1 rounded hover:bg-gray-400 transition-colors"
-            >
-              Cancel
+              <VscClearAll size={16} />
             </button>
           </div>
         </div>
-      </div>
-    )}
-  </div>
-)
 
+        {/* Footer */}
+        <div className="flex justify-center gap-3 mt-5">
+          <button
+            onClick={() => {
+              SaveTaskEdit()
+              setShowEditWindow(false)
+            }}
+            className="
+              px-5 py-1.5 rounded-md
+              bg-[var(--c-primary)]
+              hover:bg-[var(--c-primary-hover)]
+              text-white
+              transition
+            "
+          >
+            Save
+          </button>
+
+          <button
+            onClick={() => setShowEditWindow(false)}
+            className="
+              px-5 py-1.5 rounded-md
+              border border-[var(--c-border)]
+              text-[var(--c-text)]
+              hover:bg-white/5
+              transition
+            "
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  )
 }

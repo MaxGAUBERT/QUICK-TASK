@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect, use } from "react"
+import { useState, useReducer, useEffect } from "react"
 import {useHistoryContext} from "../Contexts/HistoryProvider"
 
 
@@ -85,25 +85,6 @@ export default function useTasks() {
       })
     }
 
-    
-    /*
-    const SaveTaskEdit = () => {
-      setTasks((prev) =>
-        prev.map((t) =>
-          t.id === selectedTask.id
-            ? {
-                ...t,
-                text: selectedTask.text,
-                describe: selectedTask.describe,
-                callTime: selectedTask.callTime,
-                priority: selectedTask.priority || "medium",
-              }
-            : t
-        )
-      )
-    }
-    */
-
     const SaveTaskEdit = () => {
       const before = tasks.find(t => t.id === selectedTask.id)
       const after = { ...selectedTask }
@@ -181,10 +162,6 @@ export default function useTasks() {
 useEffect(() => {
   applySort(tasks)
 }, [tasks, sortState])
-
-
-
-
 
   return {
     tasks,        
